@@ -19,10 +19,11 @@ Including another URLconf
 # Uncomment next two lines to enable admin:
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import RedirectView
 
 
 urlpatterns = [
-    # Uncomment the next line to enable the admin:
     path("admin/", admin.site.urls),
+    path("", RedirectView.as_view(url="api/input")),
     path("api/", include("api.urls")),
 ]
