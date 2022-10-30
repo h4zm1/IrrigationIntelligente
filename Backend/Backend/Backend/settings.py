@@ -25,7 +25,7 @@ SECRET_KEY = 'a5b226c1-5ed9-4717-8b33-588cccb0b55d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost','.ngrok.io','lhr.life','0.0.0.0','smartagri.pihlaja.ga']
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS

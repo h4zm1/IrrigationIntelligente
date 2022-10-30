@@ -3,6 +3,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <Name>Backend</Name>
     <RootNamespace>Backend</RootNamespace>
+    <WebBrowserPort>8000</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -19,6 +20,9 @@
     <WebBrowserUrl>http://localhost</WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+    <PythonDebugWebServerCommand>
+    </PythonDebugWebServerCommand>
+    <PythonDebugWebServerCommandArguments>runserver --noreload --settings $(DjangoSettingsModule) %SERVER_PORT% $(CommandLineArguments)</PythonDebugWebServerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
