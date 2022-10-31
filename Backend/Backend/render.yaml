@@ -1,0 +1,10 @@
+services: 
+- type: web
+  name: IrrigationIntelligente
+  env: python
+  plan: free
+  buildCommand: "./build.sh"
+  startCommand: gunicorn Backend.wsgi:application
+  envVars:
+  - key: DJANGO_SECRET_KEY
+    generateValue: true   
