@@ -1,12 +1,15 @@
 from pickletools import long1
 from numpy import dtype
-#from regex import D
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import InputSerializer
+from .serializer import UserSerializer
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from .models import Input
 import urllib.request
 import json
+
 
 
 class InputView(APIView):
@@ -45,4 +48,33 @@ class WeatherView(APIView):
         }
 
         return Response(result)
+class AccountView(APIView):
+
+    def get(self,request):
+        userName = request.GET.get('username')
+        userPass = request.GET.get('password')
+        userMail = request.GET.get('email')
+        try:
+            user = User.objects.create_user(username=userName,
+                                         email=userMail,
+                                         password=userPass)
+            response = {"success": True}
+            return Response(response)
+        except Exception:
+            response = {"success": False}
+            return Response(response)
+
+
+    def post(self,request):
+        userPass = request.data.get("password")
+        userName = request.data.get("username")
+        
+        user = authenticate(username=userName, password=userPass)
+        if user is not None:
+          response = {"login": True}
+          return Response(response)
+        else:
+          response = {"login": False}
+          return Response(response)
+
 
