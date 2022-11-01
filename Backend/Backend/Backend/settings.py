@@ -77,6 +77,15 @@ DATABASES = {
      'default':
         dj_database_url.config(default=os.getenv('DATABASE_URL'),
             conn_max_age=600)
+
+    #  'default': {
+    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #    'NAME': 'dbsmartagri', 
+    #    'USER': 'postgres',
+    #    'PASSWORD': 'root',
+    #    'HOST': '127.0.0.1', 
+    #    'PORT': '5432',
+    #}
   
 }
 

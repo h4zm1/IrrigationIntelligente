@@ -4,9 +4,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import InputSerializer
 from .serializer import UserSerializer
+from .serializer import GuideSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Input
+from .models import Guide
 import urllib.request
 import json
 
@@ -78,3 +80,8 @@ class AccountView(APIView):
           return Response(response)
 
 
+class GuideView(APIView):
+    def get(self, request):
+        guides = Guide.objects.all()
+        serializer = GuideSerializer(guides, many=True)
+        return Response({"guides": serializer.data})
