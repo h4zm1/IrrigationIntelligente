@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:irregation/components/already_have_an_account_acheck.dart';
+import 'package:irregation/constants.dart';
 
-import '../../../components/already_have_an_account_acheck.dart';
-import '../../../constants.dart';
-import '../First.dart';
 import '../Login/Signin_screen.dart';
 
 class SignUpForm extends StatelessWidget {

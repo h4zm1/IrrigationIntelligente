@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:irregation/Screens/pages.dart';
 
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
-import '../First.dart';
 import '../Signup/signup_screen.dart';
 
 class SignInForm extends StatelessWidget {
@@ -60,10 +61,7 @@ class SignInForm extends StatelessWidget {
           Hero(
             tag: "login_btn",
             child: ElevatedButton(
-              onPressed: () => {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => First()))
-              },
+              onPressed: () => {Get.to(Pages())},
               child: Text(
                 "Sign in".toUpperCase(),
               ),

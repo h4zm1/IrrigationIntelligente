@@ -1,4 +1,4 @@
-package com.example.agri_intell
+package com.example.irregation
 
 import io.flutter.embedding.android.FlutterActivity
 

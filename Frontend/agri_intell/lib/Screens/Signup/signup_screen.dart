@@ -1,6 +1,5 @@
-import 'package:agri_intell/Screens/Signup/signup_form.dart';
 import 'package:flutter/material.dart';
-import 'package:agri_intell/constants.dart';
+import 'package:irregation/Screens/Signup/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);

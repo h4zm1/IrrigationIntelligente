@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:agri_intell/constants.dart';
+import 'package:get/get.dart';
+import 'package:irregation/constants.dart';
 
 import 'Screens/Login/Signin_screen.dart';
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Auth',
       theme: ThemeData(

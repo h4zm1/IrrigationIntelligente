@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({Key? key}) : super(key: key);
-
+  const ResultPage({
+    Key? key,
+    required this.result,
+  }) : super(key: key);
+  final double result;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +24,7 @@ class ResultPage extends StatelessWidget {
                   width: 300,
                   height: 200,
                   margin: const EdgeInsets.only(
-                    top: 400,
+                    top: 300,
                     left: 50,
                   ),
                   decoration: const BoxDecoration(
@@ -38,17 +41,17 @@ class ResultPage extends StatelessWidget {
                       )
                     ],
                   ),
-                  child: Row(
+                  child: Column(
                     children: [
-                      Icon(
-                        Icons.water_drop,
-                        color: kPrimaryColor,
-                        size: 50,
+                      const SizedBox(
+                        height: 40,
                       ),
-                      Column(
-                        children: [
-                          const SizedBox(
-                            height: 40,
+                      Row(
+                        children: const [
+                          Icon(
+                            Icons.water_drop,
+                            color: kPrimaryColor,
+                            size: 50,
                           ),
                           Text(
                             "Amount of water vaporized",
@@ -56,9 +59,22 @@ class ResultPage extends StatelessWidget {
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20),
-                          )
+                          ),
                         ],
-                      )
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        result.toString() + "",
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 35),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                     ],
                   )),
               AppBar(
