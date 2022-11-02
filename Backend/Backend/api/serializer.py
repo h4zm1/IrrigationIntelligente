@@ -4,13 +4,21 @@ from .models import Input
 from .models import Guide
 
 
-class InputSerializer(serializers.Serializer):
+class InputSerializerPOST(serializers.Serializer):
        temperature = serializers.FloatField()
        humidity = serializers.FloatField()
        water = serializers.FloatField()
-
        def create(self, validated_data):
            return Input.objects.create(**validated_data)
+
+class InputSerializerGET(serializers.Serializer):
+       temperature = serializers.FloatField()
+       humidity = serializers.FloatField()
+       water = serializers.FloatField()
+       created_at = serializers.DateTimeField()
+       def create(self, validated_data):
+           return Input.objects.create(**validated_data)
+
 
 class GuideSerializer(serializers.Serializer):
        plantName = serializers.CharField()

@@ -2,7 +2,8 @@ from pickletools import long1
 from numpy import dtype
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializer import InputSerializer
+from .serializer import InputSerializerPOST
+from .serializer import InputSerializerGET
 from .serializer import UserSerializer
 from .serializer import GuideSerializer
 from django.contrib.auth.models import User
@@ -17,14 +18,14 @@ import json
 class InputView(APIView):
     def get(self, request):
         inputs = Input.objects.all()
-        serializer = InputSerializer(inputs, many=True)
+        serializer = InputSerializerGET(inputs, many=True)
         return Response({"inputs": serializer.data})
 
     def post(self, request):
         input = request.data.get("input")
         sum = 0
         # create an input from above data
-        serializer = InputSerializer(data=input)
+        serializer = InputSerializerPOST(data=input)
         if serializer.is_valid(raise_exception=True):
             input_saved = serializer.save()
             sum = input_saved.temperature + input_saved.humidity + input_saved.water
@@ -32,7 +33,7 @@ class InputView(APIView):
                 "result":sum
             })
 
-
+    
 class WeatherView(APIView):
     # ex url: http://localhost:8000/api/weather/?lon=10.454610&lat=34.725160
     def get(self, request):

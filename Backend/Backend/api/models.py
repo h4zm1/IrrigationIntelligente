@@ -3,8 +3,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
+from datetime import datetime    
+from django.utils.timezone import now
 
 class Input(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True,blank=True)
     temperature = models.FloatField(max_length=50)
     humidity = models.FloatField(max_length=50)
     water = models.FloatField(max_length=50)
