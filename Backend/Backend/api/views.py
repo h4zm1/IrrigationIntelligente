@@ -19,19 +19,18 @@ class InputView(APIView):
     def get(self, request):
         inputs = Input.objects.all()
         serializer = InputSerializerGET(inputs, many=True)
-        return Response({"inputs": serializer.data})
+        return Response(serializer.data)
 
     def post(self, request):
-        input = request.data.get("input")
         sum = 0
-        # create an input from above data
-        serializer = InputSerializerPOST(data=input)
-        if serializer.is_valid(raise_exception=True):
+        serializer = InputSerializerPOST(data=request.data)
+        if serializer.is_valid():
             input_saved = serializer.save()
             sum = input_saved.temperature + input_saved.humidity + input_saved.water
-        return Response({
-                "result":sum
-            })
+            return Response({"result":sum})
+        else:
+            return Response({"result":"error"})
+
 
     
 class WeatherView(APIView):
@@ -85,4 +84,4 @@ class GuideView(APIView):
     def get(self, request):
         guides = Guide.objects.all()
         serializer = GuideSerializer(guides, many=True)
-        return Response({"guides": serializer.data})
+        return Response(serializer.data)

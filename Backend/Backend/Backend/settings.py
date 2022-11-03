@@ -35,7 +35,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
-INSTALLED_APPS = [  # Add your apps here to enable them
+INSTALLED_APPS = [# Add your apps here to enable them
     'api',
     'corsheaders',
     'django.contrib.admin',
@@ -44,19 +44,18 @@ INSTALLED_APPS = [  # Add your apps here to enable them
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework', ]
+    'rest_framework',]
 
 # Middleware framework
 # https://docs.djangoproject.com/en/2.1/topics/http/middleware/
-MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware', ]
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',]
 
 ROOT_URLCONF = 'Backend.urls'
 
@@ -70,9 +69,9 @@ TEMPLATES = [{
         'context_processors': ['django.template.context_processors.debug',
                                'django.template.context_processors.request',
                                'django.contrib.auth.context_processors.auth',
-                               'django.contrib.messages.context_processors.messages', ],
+                               'django.contrib.messages.context_processors.messages',],
     },
-}, ]
+},]
 
 WSGI_APPLICATION = 'Backend.wsgi.application'
 
@@ -85,13 +84,13 @@ DATABASES = {
 
 #### for localDB
 
-      #'default': {
-      #  'ENGINE': 'django.db.backends.postgresql_psycopg2',
-      #  'NAME': 'dbsmartagri', 
-      #  'USER': 'postgres',
-      #  'PASSWORD': 'root',
-      #  'HOST': '127.0.0.1', 
-      #  'PORT': '5432',
+    #  'default': {
+    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #    'NAME': 'dbsmartagri', 
+    #    'USER': 'postgres',
+    #    'PASSWORD': 'root',
+    #    'HOST': '127.0.0.1', 
+    #    'PORT': '5432',
     #}
   
 }
@@ -109,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [{
 },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-}, ]
+},]
 
 AUTHENTICATION_BACKENDS = ['api.models.EmailBackend']
 
@@ -125,6 +124,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
 #STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
-
 
 CORS_ALLOW_ALL_ORIGINS = True

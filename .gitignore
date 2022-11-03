@@ -217,3 +217,7 @@ FakesAssemblies/
 _Pvt_Extensions
 
 Backend/Backend/Backend\.pyproj
+
+Backend/Backend/api/__pycache__/
+
+Backend/Backend/Backend/__pycache__/
