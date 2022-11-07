@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import posixpath
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -44,7 +47,8 @@ INSTALLED_APPS = [# Add your apps here to enable them
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',]
+    'rest_framework',
+    'cloudinary']
 
 # Middleware framework
 # https://docs.djangoproject.com/en/2.1/topics/http/middleware/
@@ -119,6 +123,13 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+ 
+# Cloudinary config         os.getenv('cloud_name'),           os.getenv('api_secret'),
+cloudinary.config( 
+  cloud_name = os.environ['cloud_name'],
+  api_key = os.environ['api_keyC'],
+  api_secret = os.environ['api_secret']
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
