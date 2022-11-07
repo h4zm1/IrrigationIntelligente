@@ -22,6 +22,14 @@ class Guide(models.Model):
     def __int__(self):
         return self.id
 
+class Mygardin(models.Model):
+    plantName = models.CharField(max_length=50)
+    plantDisc = models.CharField(max_length=500)
+    plantWaterUsage = models.FloatField(max_length=50)
+    plantImageUrl = models.CharField(max_length=100)
+    def __int__(self):
+        return self.id
+
 class EmailBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         UserModel = get_user_model()
