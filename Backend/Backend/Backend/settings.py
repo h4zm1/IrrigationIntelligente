@@ -27,7 +27,7 @@ SECRET_KEY = 'a5b226c1-5ed9-4717-8b33-588cccb0b55d'
 DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.ngrok.io',
-                 'lhr.life', '0.0.0.0', 'smartagri.pihlaja.ga']
+                 'lhr.life', '0.0.0.0', 'smartagri.pihlaja.ga','irrigationintelligente-production.up.railway.app']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 DATABASES = {
     'default':
     dj_database_url.config(default=os.getenv('DATABASE_URL'),
-                           conn_max_age=600)
+                           conn_max_age=1800)
 
 #### for localDB
 
