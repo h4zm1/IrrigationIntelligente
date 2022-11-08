@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:irregation/Screens/pages.dart';
 import 'package:irregation/constants.dart';
+import 'package:irregation/middleware/AuthMiddleware.dart';
 import 'package:irregation/splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Screens/Login/Signin_screen.dart';
 
-void main() => runApp(const MyApp());
+SharedPreferences? sharedPreferences;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedPreferences = await SharedPreferences.getInstance();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -40,7 +48,24 @@ class MyApp extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
           )),
-      home: SplashScreen(),
+      initialRoute: "/splash",
+      getPages: [
+        GetPage(
+          name: "/",
+          page: () => SigninScreen(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: "/splash",
+          page: () => SplashScreen(),
+          middlewares: [],
+        ),
+        GetPage(
+          name: "/home",
+          page: () => Pages(),
+          middlewares: [],
+        ),
+      ],
       //const SigninScreen(),
     );
   }

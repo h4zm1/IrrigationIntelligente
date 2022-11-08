@@ -7,6 +7,7 @@ import 'package:irregation/components/inputs.dart';
 import 'package:irregation/constants.dart';
 import 'package:irregation/controller/PageController.dart';
 import 'package:irregation/controller/PlantController.dart';
+import 'package:irregation/main.dart';
 import 'Login/Signin_screen.dart';
 import '../components/Plants.dart';
 
@@ -48,9 +49,9 @@ class Pages extends StatelessWidget {
                 IconButton(
                   icon:
                       const Icon(Icons.power_settings_new, color: Colors.white),
-                  onPressed: () => {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SigninScreen()))
+                  onPressed: () {
+                    sharedPreferences!.clear();
+                    Get.off(SigninScreen());
                   },
                 ),
                 SizedBox(height: 180),

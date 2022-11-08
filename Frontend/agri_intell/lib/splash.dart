@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'Screens/Login/Signin_screen.dart';
 import 'constants.dart';
@@ -57,12 +58,8 @@ class SplashScreen extends StatelessWidget {
               "Let's get started ",
               style: TextStyle(fontSize: 20.0),
             ),
-            onPressed: () => {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SigninScreen(),
-                  ))
+            onPressed: () {
+              Get.toNamed("/");
             },
           ),
         ),
