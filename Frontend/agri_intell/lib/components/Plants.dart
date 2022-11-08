@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+import 'InfoPage.dart';
+
 class Plants extends StatelessWidget {
   const Plants({Key? key}) : super(key: key);
 
@@ -10,33 +13,76 @@ class Plants extends StatelessWidget {
     return
         // inputs
         Container(
-      width: 330,
-      height: 520,
-      margin: const EdgeInsets.only(
-        left: 10,
-        top: 50,
-        right: 3,
-        //bottom: 10,
-      ),
-      child: Column(
-        children: [
-          const Text(
-            "Plants",
-            style: TextStyle(
-                color: Color.fromARGB(255, 7, 41, 8),
-                fontSize: 40,
-                fontWeight: FontWeight.bold),
-          ),
-          InkWell(
-            onTap: () {},
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: Image.asset('assets/images/apricot.png',
-                  width: 110.0, height: 110.0),
+            width: 210,
+            height: 520,
+            margin: const EdgeInsets.only(
+              left: 90,
+              top: 120,
+              right: 3,
+              //bottom: 10,
             ),
-          ),
-        ],
-      ),
-    );
+            child: ListView(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
+                children: [
+                  Text("Plants",
+                      style: TextStyle(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 50)),
+                  SizedBox(height: 20),
+                  Ink(
+                    width: 100,
+                    height: 120,
+                    decoration: const BoxDecoration(
+                      // borderRadius: BorderRadius.circular(20),
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/apple.png'),
+                      ),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InfoPage()));
+                      },
+                    ),
+                  ),
+                  Text(
+                    "Apple",
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 30),
+                  Ink(
+                    width: 100,
+                    height: 120,
+                    decoration: const BoxDecoration(
+                        // borderRadius: BorderRadius.circular(20),
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/apricot.jpg'),
+                        )),
+                    child: InkWell(
+                      onTap: () {},
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Ink(
+                    width: 100,
+                    height: 120,
+                    decoration: const BoxDecoration(
+                        // borderRadius: BorderRadius.circular(20),
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/grape.jpg'),
+                        )),
+                    child: InkWell(
+                      onTap: () {},
+                    ),
+                  ),
+                ]));
   }
 }
