@@ -21,19 +21,17 @@ class SigninScreen extends StatelessWidget {
           ),
           margin: const EdgeInsets.only(
             left: 30,
-            top: 50,
+            top: 70,
             right: 10,
             bottom: 20,
           ),
           width: 350,
           height: 600,
+          child: Container(
+            margin: const EdgeInsets.all(20),
+            child: const SignInForm(),
+          ),
         ),
-        Container(
-          margin: const EdgeInsets.all(50),
-          // width: 300,
-          //height: 300,
-          child: const SignInForm(),
-        )
       ],
     ));
   }

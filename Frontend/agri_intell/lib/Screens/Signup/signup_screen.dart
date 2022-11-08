@@ -27,13 +27,13 @@ class SignUpScreen extends StatelessWidget {
           ),
           width: 350,
           height: 600,
+          child: Container(
+            margin: const EdgeInsets.all(20),
+            // width: 300,
+            //height: 300,
+            child: const SignUpForm(),
+          ),
         ),
-        Container(
-          margin: const EdgeInsets.all(50),
-          // width: 300,
-          //height: 300,
-          child: const SignUpForm(),
-        )
       ],
     ));
   }

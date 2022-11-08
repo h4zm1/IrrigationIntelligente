@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:irregation/components/Statis.dart';
 import 'package:irregation/components/inputs.dart';
 import 'package:irregation/constants.dart';
 import 'package:irregation/controller/PageController.dart';
+import 'package:irregation/controller/PlantController.dart';
 import 'Login/Signin_screen.dart';
 import '../components/Plants.dart';
 
@@ -50,7 +53,7 @@ class Pages extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => SigninScreen()))
                   },
                 ),
-                SizedBox(height: 260),
+                SizedBox(height: 180),
                 RotatedBox(
                   quarterTurns: -1,
                   child: TextButton(
@@ -72,9 +75,18 @@ class Pages extends StatelessWidget {
                 RotatedBox(
                   quarterTurns: -1,
                   child: TextButton(
+                    child: Text("My gardin",
+                        style: TextStyle(color: Colors.white)),
+                    onPressed: () => {controller.setPage(2)},
+                  ),
+                ),
+                SizedBox(height: 20),
+                RotatedBox(
+                  quarterTurns: -1,
+                  child: TextButton(
                     child:
                         Text("Plants", style: TextStyle(color: Colors.white)),
-                    onPressed: () => {controller.setPage(2)},
+                    onPressed: () => {controller.setPage(3)},
                   ),
                 ),
               ]),
@@ -83,7 +95,7 @@ class Pages extends StatelessWidget {
               width: 25,
               height: 50,
               margin: EdgeInsets.only(
-                  left: 50, top: 350 + 86 * controller.pageNumber * 1.0),
+                  left: 50, top: 270 + 90 * controller.pageNumber * 1.0),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -105,7 +117,50 @@ class Pages extends StatelessWidget {
                   decoration: const BoxDecoration(
                       color: Color.fromRGBO(101, 151, 60, 1),
                       borderRadius: BorderRadius.all(Radius.circular(30)))),
-            )
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 12, top: Get.size.height - 60),
+              child: GetBuilder<PlantController>(
+                init: PlantController(),
+                builder: (controllerPlant) => SpeedDial(
+                  direction: SpeedDialDirection.right,
+                  icon: Icons.add,
+                  activeIcon: Icons.close,
+                  backgroundColor: const Color.fromRGBO(101, 151, 60, 1),
+                  foregroundColor: Colors.white,
+                  activeBackgroundColor: Colors.black,
+                  activeForegroundColor: Colors.white,
+                  visible: true,
+                  closeManually: false,
+                  curve: Curves.bounceIn,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.5,
+                  elevation: 0,
+                  buttonSize: Size(40, 40),
+                  shape: CircleBorder(),
+                  children: [
+                    SpeedDialChild(
+                      child: Icon(Icons.image),
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                      label: 'Gallery',
+                      labelStyle: TextStyle(fontSize: 18.0),
+                      onTap: () =>
+                          controllerPlant.pickImage(ImageSource.gallery),
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.camera_alt),
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.green,
+                      label: 'Camera',
+                      labelStyle: TextStyle(fontSize: 18.0),
+                      onTap: () =>
+                          controllerPlant.pickImage(ImageSource.camera),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ]),
         ),
       )),

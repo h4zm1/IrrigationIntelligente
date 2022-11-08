@@ -8,9 +8,9 @@ import 'package:location/location.dart';
 
 class InputController extends GetxController {
   ValueNotifier<bool> loading = ValueNotifier(false);
-  TextEditingController himedity = new TextEditingController(text: '');
-  TextEditingController temperature = new TextEditingController(text: '');
-  TextEditingController water = new TextEditingController(text: '');
+  TextEditingController himedity = TextEditingController(text: '');
+  TextEditingController temperature = TextEditingController(text: '');
+  TextEditingController water = TextEditingController(text: '');
   var dio = Dio();
 
   var _data;
@@ -62,20 +62,12 @@ class InputController extends GetxController {
 
   send() async {
     loading.value = true;
-    print({
-      "input": {
-        "temperature": temperature.text,
-        "humidity": himedity.text,
-        "water": water.text,
-      }
-    });
+    update();
     // try {
     var response = await dio.post(backendUrl + "api/input/", data: {
-      "input": {
-        "temperature": temperature.text,
-        "humidity": himedity.text,
-        "water": water.text,
-      }
+      "temperature": temperature.text,
+      "humidity": himedity.text,
+      "water": water.text,
     });
 
     print(response.data['result']);
