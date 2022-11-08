@@ -131,6 +131,13 @@ cloudinary.config(
   api_secret = os.environ['api_secret']
 )
 
+# Cloudinary config
+cloudinary.config( 
+  cloud_name = "dx8edj1lf", 
+  api_key = "193687482812819", 
+  api_secret = "74I0lGbAeHrmTk7MNdZRYwP1uVc" 
+)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
