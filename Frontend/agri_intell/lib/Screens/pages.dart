@@ -124,7 +124,7 @@ class Pages extends StatelessWidget {
               child: GetBuilder<PlantController>(
                 init: PlantController(),
                 builder: (controllerPlant) => SpeedDial(
-                  direction: SpeedDialDirection.right,
+                  direction: SpeedDialDirection.up,
                   icon: Icons.add,
                   activeIcon: Icons.close,
                   backgroundColor: const Color.fromRGBO(101, 151, 60, 1),
@@ -138,13 +138,14 @@ class Pages extends StatelessWidget {
                   overlayOpacity: 0.5,
                   elevation: 0,
                   buttonSize: Size(40, 40),
+                  childrenButtonSize: Size(45, 45),
                   shape: CircleBorder(),
                   children: [
                     SpeedDialChild(
                       child: Icon(Icons.image),
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.transparent,
                       foregroundColor: Colors.white,
-                      label: 'Gallery',
+                      //label: 'Gallery',
                       labelStyle: TextStyle(fontSize: 18.0),
                       onTap: () =>
                           controllerPlant.pickImage(ImageSource.gallery),
@@ -152,8 +153,8 @@ class Pages extends StatelessWidget {
                     SpeedDialChild(
                       child: Icon(Icons.camera_alt),
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.green,
-                      label: 'Camera',
+                      backgroundColor: Colors.transparent,
+                      // label: 'Camera',
                       labelStyle: TextStyle(fontSize: 18.0),
                       onTap: () =>
                           controllerPlant.pickImage(ImageSource.camera),

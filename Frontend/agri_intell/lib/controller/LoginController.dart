@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:irregation/Screens/Login/Signin_form.dart';
 
 import 'package:dio/dio.dart';
 
@@ -10,8 +9,6 @@ import 'package:irregation/Screens/pages.dart';
 
 import 'package:irregation/constants.dart';
 import 'package:irregation/main.dart';
-
-import '../Screens/Result.dart';
 
 class LoginController extends GetxController {
   ValueNotifier<bool> loading = ValueNotifier(false);
@@ -51,12 +48,18 @@ class LoginController extends GetxController {
     loading.value = true;
     update();
 
+    print({
+      "username": username.text,
+      "email": email.text,
+      "passord": password.text
+    });
+
     try {
       var response = await dio.get(backendUrl + "api/account/",
           queryParameters: {
             "username": username.text,
             "email": email.text,
-            "passord": password.text
+            "password": password.text
           });
       print(response);
       if (response.data["success"] == true) {

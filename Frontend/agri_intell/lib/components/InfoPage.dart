@@ -1,134 +1,125 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class InfoPage extends StatelessWidget {
-  const InfoPage({super.key});
+  const InfoPage({super.key, this.plant});
 
+  final plant;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 108, 154, 62),
-          ),
-        ),
-        Container(
-          height: 630,
-          width: 500,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(40.0),
-                bottomLeft: Radius.circular(160.0)),
-          ),
-          child: Column(children: [
-            ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: Image.asset(
-                  'assets/images/apple.png',
-                  width: 320,
-                  height: 320,
-                )),
-            Container(
-              width: 300,
-              height: 300,
-              child: Column(
-                children: [
-                  const Text("Apple",
-                      textAlign: TextAlign.left,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                  SizedBox(height: 20),
-                  const Text(
-                    'Apple, Malus domestica, is a deciduous tree in the family Rosaceae which is grown for its fruits, known as apples. Apple fruits are one of the most widely cultivated fruits in the world, are round (pome) in shape and range in color from green to red.',
-                    textAlign: TextAlign.left,
-                  ),
-                ],
-              ),
+      body: Stack(
+        children: [
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 108, 154, 62),
             ),
-          ]),
-        ),
-        Container(
-          height: 200,
-          width: 100,
-          margin: const EdgeInsets.only(
-            left: 10,
-            top: 670,
-            right: 3,
-            //bottom: 10,
           ),
-          child: Column(
-            children: [
-              Icon(
-                Icons.straighten,
-                color: Colors.white,
-                size: 37,
+          Container(
+            height: Get.size.height - 150,
+            width: Get.size.width,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(40.0),
+                  bottomLeft: Radius.circular(160.0)),
+            ),
+            child: Column(children: [
+              Container(
+                width: Get.width - 80,
+                height: 250,
+                margin: const EdgeInsets.only(top: 60, bottom: 20),
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(40),
+                        bottomLeft: Radius.circular(40)),
+                    child: Image.network(
+                      plant["plantImageUrl"],
+                      fit: BoxFit.fill,
+                    )),
               ),
-              Text("Height",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.white)),
-              Text('25cm-30cm',
-                  style: TextStyle(fontSize: 12, color: Colors.white))
-            ],
-          ),
-        ),
-        Container(
-          height: 200,
-          width: 100,
-          margin: const EdgeInsets.only(
-            left: 130,
-            top: 670,
-            right: 3,
-            //bottom: 10,
-          ),
-          child: Column(
-            children: [
-              Icon(
-                Icons.thermostat,
-                color: Colors.white,
-                size: 37,
+              Container(
+                width: 300,
+                height: 300,
+                child: Column(
+                  children: [
+                    Text(plant["plantName"],
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30)),
+                    const SizedBox(height: 20),
+                    Text(
+                      plant["plantDisc"],
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
               ),
-              Text("Temperature",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.white)),
-              Text('22°C-30°C',
-                  style: TextStyle(fontSize: 12, color: Colors.white))
-            ],
+            ]),
           ),
-        ),
-        Container(
-          height: 200,
-          width: 100,
-          margin: const EdgeInsets.only(
-            left: 260,
-            top: 670,
-            right: 3,
-            //bottom: 10,
+          Container(
+            margin: EdgeInsets.only(top: Get.height - 125, left: 50, right: 50),
+            width: Get.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  // crossAxisAlignment: CrossAxisAlignment.st,
+                  children: [
+                    Icon(
+                      Icons.straighten,
+                      color: Colors.white,
+                      size: 45,
+                    ),
+                    Text("Height",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white)),
+                    Text('25cm-30cm',
+                        style: TextStyle(fontSize: 15, color: Colors.white))
+                  ],
+                ),
+                Column(
+                  children: [
+                    Icon(
+                      Icons.thermostat,
+                      color: Colors.white,
+                      size: 45,
+                    ),
+                    Text("Temperature",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white)),
+                    Text('22°C-30°C',
+                        style: TextStyle(fontSize: 15, color: Colors.white))
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Icon(
+                      Icons.ac_unit,
+                      color: Colors.white,
+                      size: 45,
+                    ),
+                    const Text("Humidity",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white)),
+                    Text(plant['plantWaterUsage'].toString(),
+                        style: TextStyle(fontSize: 15, color: Colors.white))
+                  ],
+                ),
+              ],
+            ),
           ),
-          child: Column(
-            children: [
-              Icon(
-                Icons.ac_unit,
-                color: Colors.white,
-                size: 37,
-              ),
-              Text("Humidity",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.white)),
-              Text('7L-10L',
-                  style: TextStyle(fontSize: 12, color: Colors.white))
-            ],
-          ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

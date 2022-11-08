@@ -6,8 +6,7 @@ import 'package:irregation/main.dart';
 class AuthMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    print(sharedPreferences!.getString('id'));
-    if ((sharedPreferences!.getString('id') != null)) {
+    if ((sharedPreferences!.getInt('id') != null)) {
       return RouteSettings(name: "/home");
     }
   }

@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
             ),
           )),
       initialRoute: "/splash",
+      // home: SplashScreen(),
       getPages: [
         GetPage(
           name: "/",

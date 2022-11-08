@@ -33,7 +33,6 @@ class SignUpForm extends StatelessWidget {
               controller: controller.username,
               textInputAction: TextInputAction.next,
               cursorColor: kPrimaryColor,
-              onSaved: (email) {},
               decoration: const InputDecoration(
                 hintText: "Full name",
                 prefixIcon: Padding(

@@ -14,10 +14,12 @@ class PlantController extends GetxController {
 
   File? _image;
   get image => _image;
+  var guidList = [];
 
   @override
   onInit() {
     super.onInit();
+    getGuideList();
   }
 
   Future pickImage(ImageSource sourcei) async {
@@ -56,6 +58,27 @@ class PlantController extends GetxController {
       if (!await launchUrl(Uri.parse('https://flutter.dev'))) {
         throw 'Could not launch';
       }
+    }
+
+    loading.value = false;
+    update();
+  }
+
+  Future getGuideList() async {
+    loading.value = true;
+    update();
+
+    // try {
+
+    var dio = Dio();
+    var response = await dio.get(
+      backendUrl + "api/guide/",
+    );
+    print(response.data);
+    if (response.statusCode == 200) {
+      guidList = response.data;
+    } else {
+      // Get.showOverlay(asyncFunction: asyncFunction)
     }
 
     loading.value = false;
