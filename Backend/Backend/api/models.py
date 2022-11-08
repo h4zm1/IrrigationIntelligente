@@ -27,6 +27,7 @@ class Mygardin(models.Model):
     plantDisc = models.CharField(max_length=500)
     plantWaterUsage = models.FloatField(max_length=50)
     plantImageUrl = models.CharField(max_length=100)
+    userId = models.IntegerField(max_length=20)
     def __int__(self):
         return self.id
 
