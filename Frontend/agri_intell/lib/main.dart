@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:irregation/constants.dart';
+import 'package:irregation/splash.dart';
 
 import 'Screens/Login/Signin_screen.dart';
 
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
           )),
-      home: const SigninScreen(),
+      home: SplashScreen(),
+      //const SigninScreen(),
     );
   }
 }

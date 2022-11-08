@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import posixpath
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +30,7 @@ SECRET_KEY = 'a5b226c1-5ed9-4717-8b33-588cccb0b55d'
 DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.ngrok.io',
-                 'lhr.life', '0.0.0.0', 'smartagri.pihlaja.ga']
+                 'lhr.life', '0.0.0.0', 'smartagri.pihlaja.ga','irrigationintelligente-production.up.railway.app']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -35,7 +38,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
-INSTALLED_APPS = [  # Add your apps here to enable them
+INSTALLED_APPS = [# Add your apps here to enable them
     'api',
     'corsheaders',
     'django.contrib.admin',
@@ -44,19 +47,19 @@ INSTALLED_APPS = [  # Add your apps here to enable them
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework', ]
+    'rest_framework',
+    'cloudinary']
 
 # Middleware framework
 # https://docs.djangoproject.com/en/2.1/topics/http/middleware/
-MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware', ]
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',]
 
 ROOT_URLCONF = 'Backend.urls'
 
@@ -70,9 +73,9 @@ TEMPLATES = [{
         'context_processors': ['django.template.context_processors.debug',
                                'django.template.context_processors.request',
                                'django.contrib.auth.context_processors.auth',
-                               'django.contrib.messages.context_processors.messages', ],
+                               'django.contrib.messages.context_processors.messages',],
     },
-}, ]
+},]
 
 WSGI_APPLICATION = 'Backend.wsgi.application'
 
@@ -81,17 +84,17 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 DATABASES = {
     'default':
     dj_database_url.config(default=os.getenv('DATABASE_URL'),
-                           conn_max_age=600)
+                           conn_max_age=1800)
 
 #### for localDB
 
-      #'default': {
-      #  'ENGINE': 'django.db.backends.postgresql_psycopg2',
-      #  'NAME': 'dbsmartagri', 
-      #  'USER': 'postgres',
-      #  'PASSWORD': 'root',
-      #  'HOST': '127.0.0.1', 
-      #  'PORT': '5432',
+    #  'default': {
+    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #    'NAME': 'dbsmartagri', 
+    #    'USER': 'postgres',
+    #    'PASSWORD': 'root',
+    #    'HOST': '127.0.0.1', 
+    #    'PORT': '5432',
     #}
   
 }
@@ -109,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [{
 },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-}, ]
+},]
 
 AUTHENTICATION_BACKENDS = ['api.models.EmailBackend']
 
@@ -121,10 +124,16 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+# Cloudinary config
+cloudinary.config( 
+  cloud_name = "dx8edj1lf", 
+  api_key = "193687482812819", 
+  api_secret = "74I0lGbAeHrmTk7MNdZRYwP1uVc" 
+)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
 #STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
-
 
 CORS_ALLOW_ALL_ORIGINS = True

@@ -6,32 +6,33 @@ from .serializer import InputSerializerPOST
 from .serializer import InputSerializerGET
 from .serializer import UserSerializer
 from .serializer import GuideSerializer
+from .serializer import MygardinSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Input
 from .models import Guide
+from .models import Mygardin
 import urllib.request
 import json
-
+import cloudinary.uploader
 
 
 class InputView(APIView):
     def get(self, request):
         inputs = Input.objects.all()
         serializer = InputSerializerGET(inputs, many=True)
-        return Response({"inputs": serializer.data})
+        return Response(serializer.data)
 
     def post(self, request):
-        input = request.data.get("input")
         sum = 0
-        # create an input from above data
-        serializer = InputSerializerPOST(data=input)
-        if serializer.is_valid(raise_exception=True):
+        serializer = InputSerializerPOST(data=request.data)
+        if serializer.is_valid():
             input_saved = serializer.save()
             sum = input_saved.temperature + input_saved.humidity + input_saved.water
-        return Response({
-                "result":sum
-            })
+            return Response({"result":sum})
+        else:
+            return Response({"result":"error"})
+
 
     
 class WeatherView(APIView):
@@ -82,7 +83,29 @@ class AccountView(APIView):
 
 
 class GuideView(APIView):
+
     def get(self, request):
         guides = Guide.objects.all()
         serializer = GuideSerializer(guides, many=True)
-        return Response({"guides": serializer.data})
+        return Response(serializer.data)
+    def post(self,request):
+        file = request.data.get('picture')
+
+        upload_data = cloudinary.uploader.upload(file)
+        serializer_data = {
+            "plantName":"testname", 
+            "plantDisc":'testdisc',
+            "plantWaterUsage":0,
+            "plantImageUrl":str(upload_data['secure_url'])
+        }
+
+        # Creation
+        serializer = MygardinSerializer(data=serializer_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            print(serializer.errors)
+            return Response({
+                'status': 'error',
+            })
