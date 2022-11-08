@@ -20,6 +20,7 @@ import json
 import urllib.request
 import os
 
+
 class InputView(APIView):
     def get(self, request):
         inputs = Input.objects.all()
@@ -55,6 +56,7 @@ class WeatherView(APIView):
         }
 
         return Response(result)
+
 class AccountView(APIView):
 
     def get(self,request):
@@ -72,16 +74,24 @@ class AccountView(APIView):
             return Response(response)
 
 
+   
     def post(self,request):
         userPass = request.data.get("password")
         userName = request.data.get("username")
         
         user = authenticate(username=userName, password=userPass)
+        data = {}
+       
         if user is not None:
-          response = {"login": True}
+            # user is not serializable, so we manually created
+          data['username'] = user.username
+          data['id'] = user.id
+          data['email'] = user.email
+          data['login'] = 'true'
+          response = data
           return Response(response)
         else:
-          response = {"login": False}
+          response = {"login": 'false'}
           return Response(response)
 
 
