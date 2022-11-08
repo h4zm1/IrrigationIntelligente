@@ -95,6 +95,7 @@ class GuideView(APIView):
         serializer_data = {}
         # parameter key name for picture
         file = request.data.get('picture')
+        userId = request.data.get("userid")
 
         # upload image to cloudinary
         upload_data = cloudinary.uploader.upload(file)
@@ -120,18 +121,34 @@ class GuideView(APIView):
         json_result = json.loads(response.text)
         print(json_result)
         #print(json_result['results'][0]['species']['commonNames'][0])
+        plantName = ""
         try:
              # might fail if given plant name doesn't exist in guide table
-            plant = Guide.objects.get(plantName=json_result['results'][0]['species']['commonNames'][0])
+            plantName = json_result['results'][0]['species']['commonNames'][0]
+            plant = Guide.objects.get(plantName=plantName)
             serializer_data = {
-            "plantName":plant.plantName, 
-            "plantDisc":plant.plantDisc,
-            "plantWaterUsage":plant.plantWaterUsage,
-            "plantImageUrl":str(upload_data['secure_url'])
-        }
+                "plantName":plant.plantName, 
+                "plantDisc":plant.plantDisc,
+                "plantWaterUsage":plant.plantWaterUsage,
+                "plantImageUrl":image_path
+            }
         except Exception as e:
-            print("none: ",e)
-           
+            print("not found:",e)
+            serializer_data = {
+                "plantName":plantName,
+                "plantDisc":"",
+                "plantWaterUsage":"",
+                "plantImageUrl":image_path
+            }
+            if(str(e) == "list index out of range"):
+                return Response({
+                    'status':'not detected'
+                })
+            else:
+                return Response({
+                    'status':'not found',
+                    'name':json_result['results'][0]['species']['commonNames'][0]
+                })
        
         # create a plant in mygardin table
         serializer = MygardinSerializer(data=serializer_data)

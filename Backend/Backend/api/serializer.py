@@ -35,6 +35,7 @@ class MygardinSerializer(serializers.Serializer):
        plantDisc = serializers.CharField()
        plantWaterUsage = serializers.FloatField()
        plantImageUrl = serializers.CharField()
+       userId= serializers.IntegerField()
 
        def create(self, validated_data):
            return Mygardin.objects.create(**validated_data)

@@ -96,7 +96,6 @@ DATABASES = {
     #    'HOST': '127.0.0.1', 
     #    'PORT': '5432',
     #}
-  
 }
 
 # Password validation
@@ -124,7 +123,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
  
-# Cloudinary config         os.getenv('cloud_name'),           os.getenv('api_secret'),
+# Cloudinary config
 cloudinary.config( 
   cloud_name = os.environ['cloud_name'],
   api_key = os.environ['api_keyC'],
