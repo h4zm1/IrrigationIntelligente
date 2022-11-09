@@ -30,15 +30,18 @@ class GuideSerializer(serializers.Serializer):
        def create(self, validated_data):
            return Guide.objects.create(**validated_data)
 
-class MygardinSerializer(serializers.Serializer):
+class MygardinSerializer(serializers.ModelSerializer):
        plantName = serializers.CharField()
        plantDisc = serializers.CharField()
        plantWaterUsage = serializers.FloatField()
        plantImageUrl = serializers.CharField()
-       userId= serializers.IntegerField()
+       userId = serializers.IntegerField()
 
        def create(self, validated_data):
            return Mygardin.objects.create(**validated_data)
+       class Meta:
+            model = Mygardin
+            fields = ('plantName', 'plantDisc','plantWaterUsage','plantImageUrl','userId')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

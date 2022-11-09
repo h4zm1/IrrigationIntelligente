@@ -33,7 +33,7 @@ class InputView(APIView):
         if serializer.is_valid():
             input_saved = serializer.save()
             sum = input_saved.temperature + input_saved.humidity + input_saved.water
-            return Response({"result":sum})
+            return Response({"result":"%.2f" %sum})
         else:
             return Response({"result":"error"})
 
@@ -77,9 +77,9 @@ class AccountView(APIView):
    
     def post(self,request):
         userPass = request.data.get("password")
-        userName = request.data.get("username")
+        userMail = request.data.get("username")
         
-        user = authenticate(username=userName, password=userPass)
+        user = authenticate(username=userMail, password=userPass)
         data = {}
        
         if user is not None:
@@ -135,6 +135,7 @@ class GuideView(APIView):
         try:
              # might fail if given plant name doesn't exist in guide table
             plantName = json_result['results'][0]['species']['commonNames'][0]
+
             plant = Guide.objects.get(plantName=plantName)
             serializer_data = {
                 "plantName":plant.plantName, 
@@ -161,10 +162,26 @@ class GuideView(APIView):
                     'status':'not found',
                     'name':json_result['results'][0]['species']['commonNames'][0]
                 })
-       
-        # create a plant in mygardin table
+        garden = Mygardin.objects.filter(userId=userId,plantName=plantName).first()
+        print(garden)
         serializer = MygardinSerializer(data=serializer_data)
-        if serializer.is_valid():
+        if(garden!=None):# db exist
+           print(garden)
+           serializer_data = {
+                "plantName":garden.plantName, 
+                "plantDisc":garden.plantDisc,
+                "plantWaterUsage":garden.plantWaterUsage,
+                "plantImageUrl":garden.plantImageUrl+","+image_path,
+                "userId":userId
+            }
+           serializer2 = MygardinSerializer(garden, data=serializer_data)
+           if serializer2.is_valid():
+               serializer2.save()
+               return Response(serializer2.data)
+
+
+        # create a plant in mygardin table
+        elif serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         else:
@@ -174,10 +191,33 @@ class GuideView(APIView):
                 'agrs':serializer.errors,
                 'json_result':json_result,
             })
-
+   
 class GardinView(APIView):
     def get(self, request):
-        gardin = Mygardin.objects.all()
+        user_id = request.GET.get("userId")
+        urls=""
+        gardens=[]
+        temp=[]
+        #name=gardin[0].plantName
+        #print("first pant name "+name)
+        gardin = Mygardin.objects.filter(userId=user_id)
+        #for g in gardin:
+        #    urls = urls + g.plantImageUrl +","
+        #    temp.append(g)
+        #    if()
+        #    gardens.append(serializer_data)
+
+        #serializer_data = {}
+        #print(urls[:-1])
+        #serializer_data = {
+        #        "plantName":gardin[0].plantName,
+        #        "plantDisc":gardin[0].plantDisc,
+        #        "plantWaterUsage":gardin[0].plantWaterUsage,
+        #        "plantImageUrl":urls,
+        #        "userId":user_id
+        #    }
         serializer = MygardinSerializer(gardin, many=True)
         return Response(serializer.data)
+
+        
    
