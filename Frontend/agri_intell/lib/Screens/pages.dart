@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:irregation/components/MyGardin.dart';
 import 'package:irregation/components/Statis.dart';
 import 'package:irregation/components/inputs.dart';
 import 'package:irregation/constants.dart';
@@ -39,7 +40,9 @@ class Pages extends StatelessWidget {
                   ? StatPage()
                   : controller.pageNumber == 1
                       ? const InputsComponents()
-                      : const Plants(),
+                      : controller.pageNumber == 2
+                          ? const MyGardin()
+                          : const Plants(),
             ),
             Container(
               height: Get.height,
@@ -76,7 +79,7 @@ class Pages extends StatelessWidget {
                 RotatedBox(
                   quarterTurns: -1,
                   child: TextButton(
-                    child: Text("My gardin",
+                    child: Text("My garden",
                         style: TextStyle(color: Colors.white)),
                     onPressed: () => {controller.setPage(2)},
                   ),

@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,14 +32,24 @@ class InfoPage extends StatelessWidget {
                 width: Get.width - 80,
                 height: 250,
                 margin: const EdgeInsets.only(top: 60, bottom: 20),
-                child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(40),
-                        bottomLeft: Radius.circular(40)),
-                    child: Image.network(
-                      plant["plantImageUrl"],
-                      fit: BoxFit.fill,
-                    )),
+                child: CarouselSlider.builder(
+                  options: CarouselOptions(),
+                  itemCount: plant["plantImageUrl"].split(",").length,
+                  itemBuilder: (BuildContext context, int itemIndex,
+                          int pageViewIndex) =>
+                      Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(40),
+                          bottomLeft: Radius.circular(40)),
+                      child: Image.network(
+                        plant["plantImageUrl"].split(",")[itemIndex],
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               Container(
                 width: 300,

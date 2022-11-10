@@ -37,12 +37,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   dio: ^4.0.6
-  location: ^4.4.0
+  location: any
   syncfusion_flutter_charts: ^20.3.52
   image_picker: ^0.8.6
   flutter_speed_dial: ^6.2.0
   url_launcher: ^6.1.6
   shared_preferences: ^2.0.15
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:
