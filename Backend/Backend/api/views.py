@@ -19,7 +19,9 @@ import requests
 import json
 import urllib.request
 import os
-
+import joblib  
+import numpy as np
+import pickle
 
 class InputView(APIView):
     def get(self, request):
@@ -30,10 +32,24 @@ class InputView(APIView):
     def post(self, request):
         sum = 0
         serializer = InputSerializerPOST(data=request.data)
+       
+
         if serializer.is_valid():
             input_saved = serializer.save()
             sum = input_saved.temperature + input_saved.humidity + input_saved.water
-            return Response({"result":"%.2f" %sum})
+            inc = np.array([[14.0,0.1]])
+            inc2 = np.array([[input_saved.humidity,0.1]])
+            modelHum =  joblib.load("model_humidity.pkl")
+            modelTem =  joblib.load("model_temperature.pkl")
+            #for _ in range(5):
+            #    print("aaaa")
+            #predictHum = modelHum.predict(inc).tolist()
+            predictTem = modelTem.predict(inc2).tolist()
+            print("inc ",inc2)
+
+            #print("predictHum ",predictHum)
+            print("predictTem ",predictTem)
+            return Response({"result":"%.2f" %predictTem[0]})
         else:
             return Response({"result":"error"})
 
@@ -195,27 +211,8 @@ class GuideView(APIView):
 class GardinView(APIView):
     def get(self, request):
         user_id = request.GET.get("userId")
-        urls=""
-        gardens=[]
-        temp=[]
-        #name=gardin[0].plantName
-        #print("first pant name "+name)
-        gardin = Mygardin.objects.filter(userId=user_id)
-        #for g in gardin:
-        #    urls = urls + g.plantImageUrl +","
-        #    temp.append(g)
-        #    if()
-        #    gardens.append(serializer_data)
 
-        #serializer_data = {}
-        #print(urls[:-1])
-        #serializer_data = {
-        #        "plantName":gardin[0].plantName,
-        #        "plantDisc":gardin[0].plantDisc,
-        #        "plantWaterUsage":gardin[0].plantWaterUsage,
-        #        "plantImageUrl":urls,
-        #        "userId":user_id
-        #    }
+        gardin = Mygardin.objects.filter(userId=user_id)
         serializer = MygardinSerializer(gardin, many=True)
         return Response(serializer.data)
 
