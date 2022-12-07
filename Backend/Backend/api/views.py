@@ -22,7 +22,7 @@ import os
 import joblib  
 import numpy as np
 import pickle
-
+import math;
 class InputView(APIView):
     def get(self, request):
         inputs = Input.objects.all()
@@ -32,24 +32,32 @@ class InputView(APIView):
     def post(self, request):
         sum = 0
         serializer = InputSerializerPOST(data=request.data)
-       
-
+        valHolder = {0.3,0.87,1.21,1.73}
         if serializer.is_valid():
             input_saved = serializer.save()
             sum = input_saved.temperature + input_saved.humidity + input_saved.water
-            inc = np.array([[14.0,0.1]])
+            inc = np.array([[14.0,0.1]]) #temp,precipitation
             inc2 = np.array([[input_saved.humidity,0.1]])
-            modelHum =  joblib.load("model_humidity.pkl")
-            modelTem =  joblib.load("model_temperature.pkl")
+            modelHum = joblib.load("model_humidity.pkl")
+            modelTem = joblib.load("model_temperature.pkl")
+
             #for _ in range(5):
             #    print("aaaa")
-            #predictHum = modelHum.predict(inc).tolist()
+            predictHum = modelHum.predict(inc).tolist()
             predictTem = modelTem.predict(inc2).tolist()
-            print("inc ",inc2)
-
+            #currentamount - (currenttamount * 16 T / RH)
+            waterleft = input_saved.water - (input_saved.water * ((predictTem[0] / (predictHum[0]/100))*16))
+            print("temp ",predictTem[0])
+            print("hum ",predictHum[0])
+            #Antoine formula for Vapor pressure (based on temperature, and only for water under 100c)
+            #Vapor pressure of water in kPa so had to multiply by 0.133322
+            vp = 0.133322* math.pow(10,8.07131-(1730.63/(233.426+predictTem[0])))
+            print("Vapor pressure of water",vp)
+            print("vapor pressure in the air ",vp * predictHum[0]/100)
+            print("result ",'{:f}'.format((1.8 - 1.08)*(0.089 + 0.0782*0.1)/2272))
             #print("predictHum ",predictHum)
             print("predictTem ",predictTem)
-            return Response({"result":"%.2f" %predictTem[0]})
+            return Response({"result":valHolder})
         else:
             return Response({"result":"error"})
 
@@ -181,13 +189,13 @@ class GuideView(APIView):
         garden = Mygardin.objects.filter(userId=userId,plantName=plantName).first()
         print(garden)
         serializer = MygardinSerializer(data=serializer_data)
-        if(garden!=None):# db exist
+        if(garden != None):# db exist
            print(garden)
            serializer_data = {
                 "plantName":garden.plantName, 
                 "plantDisc":garden.plantDisc,
                 "plantWaterUsage":garden.plantWaterUsage,
-                "plantImageUrl":garden.plantImageUrl+","+image_path,
+                "plantImageUrl":garden.plantImageUrl + "," + image_path,
                 "userId":userId
             }
            serializer2 = MygardinSerializer(garden, data=serializer_data)
