@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:irregation/Screens/Result.dart';
 import 'package:irregation/constants.dart';
+import 'package:irregation/main.dart';
 import 'package:location/location.dart';
 
 class InputController extends GetxController {
@@ -11,6 +12,7 @@ class InputController extends GetxController {
   TextEditingController himedity = TextEditingController(text: '');
   TextEditingController temperature = TextEditingController(text: '');
   TextEditingController water = TextEditingController(text: '');
+  TextEditingController pant = TextEditingController(text: '');
   var dio = Dio();
 
   var _data;
@@ -63,22 +65,27 @@ class InputController extends GetxController {
   send() async {
     loading.value = true;
     update();
-    // try {
-    var response = await dio.post(backendUrl + "api/input/", data: {
-      "temperature": temperature.text,
-      "humidity": himedity.text,
-      "water": water.text,
-    });
+    try {
+      var response = await dio.post(backendUrl + "api/input/", data: {
+        "temperature": temperature.text,
+        "humidity": himedity.text,
+        "water": water.text,
+      });
 
-    print(response.data['result']);
-    Get.to(ResultPage(
-      result: response.data['result'],
-    ));
-    // } catch (e) {
-    //   print('error in set inputs ');
-    // }
+      print(response.data['result'][0]);
+      if (pant.text != "") {
+        await sharedPreferences!
+            .setString(pant.text, response.data['result'].join(","));
+      }
+      Get.to(ResultPage(
+        result: response.data['result'][0].toString(),
+      ));
+    } catch (e) {
+      print('error in set inputs ');
+    } finally {
+      loading.value = false;
+    }
 
-    loading.value = false;
     update();
   }
 }

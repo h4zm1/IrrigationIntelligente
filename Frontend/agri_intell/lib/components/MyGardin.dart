@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:irregation/components/InfoPage.dart';
 import 'package:irregation/controller/PlantController.dart';
+import 'package:irregation/main.dart';
 
 import '../constants.dart';
 
@@ -35,8 +36,17 @@ class MyGardin extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
-                          Get.to(
-                              InfoPage(plant: controller.mygardinList[index]));
+                          String? result = sharedPreferences!.getString(
+                              controller.mygardinList[index]["plantName"]);
+                          dynamic data = [];
+                          if (result != null) {
+                            data = result.split(",");
+                            print(result);
+                          }
+                          Get.to(InfoPage(
+                            plant: controller.mygardinList[index],
+                            data: data,
+                          ));
                         },
                         child: Column(
                           children: [

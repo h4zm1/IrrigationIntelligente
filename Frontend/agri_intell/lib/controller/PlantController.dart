@@ -48,7 +48,7 @@ class PlantController extends GetxController {
       options: Options(
         followRedirects: false,
         validateStatus: (status) {
-          return status! < 500;
+          return status! <= 500;
         },
       ),
     );
@@ -56,15 +56,19 @@ class PlantController extends GetxController {
     if (response.statusCode == 200 && response.data["status"] == null) {
       Get.to(InfoPage(
         plant: response.data,
+        data: [],
       ));
       getMyGardenList();
-    } else if (response.data["status"] == "not found") {
+    } else if (response.statusCode != 500 &&
+        response.data["status"] == "not found") {
       if (!await launchUrl(Uri.parse(
           'https://www.google.com/search?q=' + response.data["name"]))) {
         throw 'Could not launch';
       }
     } else {
-      //gfdsssssssssss
+      Get.snackbar(
+          "Try again", "No plant(s) detected, please retake the image.",
+          colorText: kPrimaryColor, snackPosition: SnackPosition.BOTTOM);
       print(response);
     }
 
@@ -76,17 +80,19 @@ class PlantController extends GetxController {
     loading.value = true;
     update();
 
-    // try {
-
-    var dio = Dio();
-    var response = await dio.get(
-      backendUrl + "api/guide/",
-    );
-    print(response.data);
-    if (response.statusCode == 200) {
-      guidList = response.data;
-    } else {
-      // Get.showOverlay(asyncFunction: asyncFunction)
+    try {
+      var dio = Dio();
+      var response = await dio.get(
+        backendUrl + "api/guide/",
+      );
+      print(response.data);
+      if (response.statusCode == 200) {
+        guidList = response.data;
+      } else {
+        // Get.showOverlay(asyncFunction: asyncFunction)
+      }
+    } on Exception catch (e) {
+      print(e);
     }
 
     loading.value = false;
@@ -95,20 +101,20 @@ class PlantController extends GetxController {
 
   Future getMyGardenList() async {
     loading.value = true;
-    update();
 
-    // try {
+    try {
+      var dio = Dio();
+      var response =
+          await dio.get(backendUrl + "api/garden/", queryParameters: {
+        "userId": sharedPreferences!.getInt("id"),
+      });
 
-    var dio = Dio();
-    var response = await dio.get(backendUrl + "api/garden/", queryParameters: {
-      "userId": sharedPreferences!.getInt("id"),
-    });
-
-    if (response.statusCode == 200) {
-      mygardinList = response.data;
-    } else {
-      // Get.showOverlay(asyncFunction: asyncFunction)
-    }
+      if (response.statusCode == 200) {
+        mygardinList = response.data;
+      } else {
+        // Get.showOverlay(asyncFunction: asyncFunction)
+      }
+    } on Exception catch (_) {}
 
     loading.value = false;
     update();

@@ -34,7 +34,10 @@ class Plants extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
-                          Get.to(InfoPage(plant: controller.guidList[index]));
+                          Get.to(InfoPage(
+                            plant: controller.guidList[index],
+                            data: [],
+                          ));
                         },
                         child: Column(
                           children: [

@@ -3,15 +3,21 @@ import 'package:get/get.dart';
 import 'package:irregation/Screens/pages.dart';
 import 'package:irregation/constants.dart';
 import 'package:irregation/middleware/AuthMiddleware.dart';
+import 'package:irregation/notification/NotificationApi.dart';
 import 'package:irregation/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: depend_on_referenced_packages
+import 'package:timezone/data/latest.dart' as tz;
 
 import 'Screens/Login/Signin_screen.dart';
 
 SharedPreferences? sharedPreferences;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
+  NotificationApi.init();
   sharedPreferences = await SharedPreferences.getInstance();
+
   runApp(const MyApp());
 }
 
