@@ -24,10 +24,62 @@ import numpy as np
 import pickle
 import math;
 class InputView(APIView):
+    valHolder2 =[]
     def get(self, request):
         inputs = Input.objects.all()
         serializer = InputSerializerGET(inputs, many=True)
         return Response(serializer.data)
+    def getWaterLeft(self, valTemp, valHumidity, valWater, c):
+        counter = c;
+        if counter == 5 :
+            return False
+        counter= counter+1
+        print("~~~~~~~~~~~##############")
+        valHolder = {0.3,0.87,1.21,1.73}
+        #if serializer.is_valid():
+        #input_saved = serializer.save()
+        #sum = input_saved.temperature + input_saved.humidity + input_saved.water
+        #for _ in range(2):
+        inc = np.array([[valTemp,0.1]]) #temp,precipitation
+        inc2 = np.array([[valHumidity,0.1]])
+        modelHum = joblib.load("model_humidity.pkl")
+        modelTem = joblib.load("model_temperature.pkl")
+ 
+        predictHum = modelHum.predict(inc).tolist()
+        predictTem = modelTem.predict(inc2).tolist()
+        print("temp ",predictTem[0])
+        print("hum ",predictHum[0])
+
+        #Antoine formula for Vapor pressure (based on temperature, and only for water under 100c)
+        #Vapor pressure of water in kPa so had to multiply by 0.133322
+        vpw = 0.133322* math.pow(10,8.07131-(1730.63/(233.426+predictTem[0])))
+        # vapor pressure in the air, 0.5 value of calibration, related to the used dataset
+        vpa = (vpw * predictHum[0]/100)-0.5
+        print("Vapor pressure of water",vpw)
+        print("vapor pressure in the air ",vpa)
+        # assuming that the air is almost stationary (v = 0.1m/s)      
+        v = 0.1
+        #  latent heat required to change water to vapor at surface water temperature, kJ/kg
+        Y = 2272
+        #valF = float(valFormated)
+        #evaporation rate in kg/m^2/s
+        evaporationRate=(vpw - vpa)*(0.089 + 0.0782*v)/Y
+        print("result ",'{:f}'.format(evaporationRate)) ### 0.000031
+        #print("predictHum ",predictHum)
+        #using area of half a meter 0.0625m^2
+        valRateInArea = (evaporationRate*0.0625)*1000 # x1000 to convert to grams, it was in kg
+        #incoming water value in liter and we need it in milliliter hence x1000
+        resultInHours = ((valWater*1000 )/valRateInArea)/3600 
+        resultInDays = resultInHours/24
+        print("valRateInArea ",'{:11.8F}'.format(valRateInArea))
+        print("hours ",resultInHours)
+        print("days ",resultInDays)
+        waterLeftAfterAday =  (valWater*1000 )  - (valRateInArea * 86400)
+        waterLeftRounded = float("{:.2f}".format(waterLeftAfterAday/1000))
+        print("water left tomorrow ",waterLeftRounded)
+        self.valHolder2.append(waterLeftRounded)
+        #call this meth again
+        self.getWaterLeft(predictTem[0], predictHum[0],waterLeftAfterAday/1000,counter)
 
     def post(self, request):
         sum = 0
@@ -36,28 +88,10 @@ class InputView(APIView):
         if serializer.is_valid():
             input_saved = serializer.save()
             sum = input_saved.temperature + input_saved.humidity + input_saved.water
-            inc = np.array([[14.0,0.1]]) #temp,precipitation
-            inc2 = np.array([[input_saved.humidity,0.1]])
-            modelHum = joblib.load("model_humidity.pkl")
-            modelTem = joblib.load("model_temperature.pkl")
+            self.valHolder2.clear()
+            self.getWaterLeft(input_saved.temperature,input_saved.humidity,input_saved.water,0)
 
-            #for _ in range(5):
-            #    print("aaaa")
-            predictHum = modelHum.predict(inc).tolist()
-            predictTem = modelTem.predict(inc2).tolist()
-            #currentamount - (currenttamount * 16 T / RH)
-            waterleft = input_saved.water - (input_saved.water * ((predictTem[0] / (predictHum[0]/100))*16))
-            print("temp ",predictTem[0])
-            print("hum ",predictHum[0])
-            #Antoine formula for Vapor pressure (based on temperature, and only for water under 100c)
-            #Vapor pressure of water in kPa so had to multiply by 0.133322
-            vp = 0.133322* math.pow(10,8.07131-(1730.63/(233.426+predictTem[0])))
-            print("Vapor pressure of water",vp)
-            print("vapor pressure in the air ",vp * predictHum[0]/100)
-            print("result ",'{:f}'.format((1.8 - 1.08)*(0.089 + 0.0782*0.1)/2272))
-            #print("predictHum ",predictHum)
-            print("predictTem ",predictTem)
-            return Response({"result":valHolder})
+            return Response({"result":self.valHolder2})
         else:
             return Response({"result":"error"})
 
