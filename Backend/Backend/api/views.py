@@ -35,11 +35,6 @@ class InputView(APIView):
             return False
         counter= counter+1
         print("~~~~~~~~~~~##############")
-        valHolder = {0.3,0.87,1.21,1.73}
-        #if serializer.is_valid():
-        #input_saved = serializer.save()
-        #sum = input_saved.temperature + input_saved.humidity + input_saved.water
-        #for _ in range(2):
         inc = np.array([[valTemp,0.1]]) #temp,precipitation
         inc2 = np.array([[valHumidity,0.1]])
         modelHum = joblib.load("model_humidity.pkl")
@@ -84,7 +79,6 @@ class InputView(APIView):
     def post(self, request):
         sum = 0
         serializer = InputSerializerPOST(data=request.data)
-        valHolder = {0.3,0.87,1.21,1.73}
         if serializer.is_valid():
             input_saved = serializer.save()
             sum = input_saved.temperature + input_saved.humidity + input_saved.water
