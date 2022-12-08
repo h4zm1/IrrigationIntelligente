@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'Screens/Login/Signin_screen.dart';
 import 'constants.dart';
@@ -15,13 +16,10 @@ class SplashScreen extends StatelessWidget {
           child: Image.asset('assets/images/splash.png', fit: BoxFit.fill),
         ),
         Container(
-          width: 400,
-          height: 300,
+          width: Get.width,
+          height: 200,
           margin: const EdgeInsets.only(
-            left: 50,
             top: 50,
-            right: 130,
-            //bottom: 10,
           ),
           child: Column(
             children: const [
@@ -42,11 +40,9 @@ class SplashScreen extends StatelessWidget {
         Container(
           height: 50,
           width: 200,
-          margin: const EdgeInsets.only(
-            left: 160,
-            top: 660,
-            right: 3,
-            //bottom: 10,
+          margin: EdgeInsets.only(
+            top: Get.height - 150,
+            left: Get.width - 250,
           ),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -57,12 +53,8 @@ class SplashScreen extends StatelessWidget {
               "Let's get started ",
               style: TextStyle(fontSize: 20.0),
             ),
-            onPressed: () => {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SigninScreen(),
-                  ))
+            onPressed: () {
+              Get.toNamed("/");
             },
           ),
         ),

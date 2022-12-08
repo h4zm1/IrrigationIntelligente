@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../constants.dart';
 
 class ResultPage extends StatelessWidget {
@@ -8,7 +9,7 @@ class ResultPage extends StatelessWidget {
     Key? key,
     required this.result,
   }) : super(key: key);
-  final double result;
+  final String result;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,16 +22,16 @@ class ResultPage extends StatelessWidget {
                 child: Image.asset('assets/images/dataa.png', fit: BoxFit.fill),
               ),
               Container(
-                  width: 300,
+                  width: Get.width - 80,
                   height: 200,
                   margin: const EdgeInsets.only(
                     top: 300,
-                    left: 50,
+                    left: 40,
                   ),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+                      Radius.circular(30),
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -44,14 +45,15 @@ class ResultPage extends StatelessWidget {
                   child: Column(
                     children: [
                       const SizedBox(
-                        height: 40,
+                        height: 20,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
-                          Icon(
-                            Icons.water_drop,
-                            color: kPrimaryColor,
-                            size: 50,
+                          Image(
+                            image: AssetImage("assets/icons/1.png"),
+                            width: 80,
+                            height: 80,
                           ),
                           Text(
                             "Amount of water vaporized",
@@ -63,14 +65,15 @@ class ResultPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Text(
-                        result.toString() + "",
+                        result.toString() + "%",
                         style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 35),
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 45,
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
